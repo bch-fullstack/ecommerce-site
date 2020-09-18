@@ -1,26 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Header from './components/Layout/Header'
+import LandingPage from './components/Pages/LandingPage'
+import DetailPage from './components/Pages/DetailPage'
+import { Route, Switch, withRouter } from 'react-router-dom'
+import extraScript from './components/Extra/extraScript'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  componentDidUpdate(prevProps) {
+    if (this.props.location.pathname !== prevProps.location.pathname) {
+        extraScript();
+    }
+  }
+
+  render(){
+    return (
+      <div className="App">
+        <Header/>
+        <Switch>
+          <Route exact path="/" component={LandingPage}/>
+          <Route exact path="/detail" component={DetailPage}/>
+        </Switch> 
+      </div>
+    );
+  }
 }
 
-export default App;
+export default withRouter(props => <App {...props}/>);
